@@ -1,0 +1,52 @@
+<!--
+    ReactJS 버전 
+    Minutes(분)-Hours(시) Converter 코드
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>React App</title>
+</head>
+
+<body>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js" type="text/javascript"></script>
+
+    <div id="root"></div>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+
+        function App() {
+            const [amount, setAmount] = React.useState(0);
+            const [flipped, setFlipped] = React.useState(false);
+            const onChange = (event) => {
+                setAmount(event.target.value); // 사용자가 입력한 값을 가져옴
+            };
+            const reset = () => setAmount(0);
+            const onFlip = () => {
+                reset();
+                setFlipped((current) => !current);
+            };
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                    <div>
+                        <label>Minutes</label>
+                        <input value={flipped ? amount * 60 : amount} id="minutes" placeholder="Minutes" type="number" disabled={flipped} onChange={onChange} />
+                    </div>
+                    <div>
+                        <label>Hours</label>
+                        <input value={flipped ? amount : Math.round(amount / 60)} id="hours" placeholder="Hours" type="number" disabled={!flipped} onChange={onChange} />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFlip}>{flipped ? "Turn back" : "Flip"}</button>
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, root);
+    </script>
+</body>
+
+</html>

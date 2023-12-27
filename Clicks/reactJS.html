@@ -1,0 +1,37 @@
+<!--
+    ReactJS 버전 코드
+    
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>React App</title>
+</head>
+
+<body>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js" type="text/javascript"></script>
+
+    <div id="root"></div>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+
+        function App() { // 컴포넌트
+            const [counter, setCounter] = React.useState(0);
+            const onClick = () => { // 함수 정의
+                setCounter(counter + 1)
+            }
+            return ( // HTML 리턴
+                <div>
+                    <h3>Total Clicks: {counter}</h3>
+                    <button onClick={onClick}>Click me</button>
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, root);
+    </script>
+</body>
+
+</html>
