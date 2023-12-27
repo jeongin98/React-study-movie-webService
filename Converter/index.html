@@ -1,6 +1,12 @@
 <!--
-    ReactJS 버전 
-    Minutes(분)-Hours(시) Converter 코드
+    ReactJS - select HTML로 단위 변환기 선택하여 리렌더링
+     - Minutes(분)-Hours(시) Converter 
+     - Km(킬로미터)-Miles(마일) Converter 
+
+    컴포넌트 3개 필요
+    - MinutesToHours : Converter
+    - KmToMiles : Converter
+    - App : select의 변화를 리스닝하여 Converter 선택
 -->
 <!DOCTYPE html>
 <html>
@@ -13,12 +19,10 @@
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" type="text/javascript"></script>
     <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js" type="text/javascript"></script>
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js" type="text/javascript"></script>
-
     <div id="root"></div>
-    <script type="text/babel">
-        const root = document.getElementById("root");
 
-        function App() {
+    <script type="text/babel">
+        function MinutesToHours() {
             const [amount, setAmount] = React.useState(0);
             const [flipped, setFlipped] = React.useState(false);
             const onChange = (event) => {
@@ -31,7 +35,6 @@
             };
             return (
                 <div>
-                    <h1>Super Converter</h1>
                     <div>
                         <label>Minutes</label>
                         <input value={flipped ? amount * 60 : amount} id="minutes" placeholder="Minutes" type="number" disabled={flipped} onChange={onChange} />
@@ -45,6 +48,53 @@
                 </div>
             );
         }
+        function KmToMiles() {
+            const [amount, setAmount] = React.useState(0);
+            const [flipped, setFlipped] = React.useState(false);
+            const onChange = (event) => {
+                setAmount(event.target.value);
+            };
+            const reset = () => setAmount(0);
+            const onFlip = () => {
+                reset();
+                setFlipped((current) => !current);
+            };
+            return (
+                <div>
+                    <div>
+                        <label>Km</label>
+                        <input value={flipped ? amount * 1.609 : amount} id="minutes" placeholder="Km" type="number" disabled={flipped} onChange={onChange} />
+                    </div>
+                    <div>
+                        <label>Miles</label>
+                        <input value={flipped ? amount : Math.round(amount / 1.609)} id="hours" placeholder="Miles" type="number" disabled={!flipped} onChange={onChange} />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFlip}>{flipped ? "Turn back" : "Flip"}</button>
+                </div>
+            );
+        }
+        function App() { // 컴포턴트 내부에 컴포넌트 렌더링 // HTML문에서는 { } 안에 JS 작성 가능
+            const [index, setIndex] = React.useState("xx");
+            const onSelect = (event) => {
+                setIndex(event.target.value); // state에 변화가 있을 때, 필요한 부분만 re-render 시킴
+            }
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                    <select value={index} onChange={onSelect}>
+                        <option value="xx">Select Your Units</option>
+                        <option value="0">Minutes & Hours</option>
+                        <option value="1">Km & Miles</option>
+                    </select>
+                    <br />
+                    {index === "xx" ? " Please Select Your Units" : null}
+                    {index === "0" ? <MinutesToHours /> : null}
+                    {index === "1" ? <KmToMiles /> : null}
+                </div>
+            );
+        }
+        const root = document.getElementById("root");
         ReactDOM.render(<App />, root);
     </script>
 </body>
