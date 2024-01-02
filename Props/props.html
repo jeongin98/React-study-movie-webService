@@ -1,0 +1,69 @@
+<!--
+    <props 개념>
+    
+    1) props 쓰는 이유
+    - Style 재사용을 위함. 스타일 코드들 복붙 줄이기 위해, 설정들을 넘겨줌. 
+    - 동일한 코드 복붙 줄이기위함. like. 
+
+    2) 특징
+    컴포넌트(함수)의 첫 번째 인자는 'props' 이다.
+
+    우리가 부여하는 props의 개수는 상관 없다.
+    → ex) <Btn buttonName={"Save Changes"} color={"red"} />
+    → 여기서 props 개수는 2개로, buttonName, color 이다.
+
+     * 컴포넌트 = 함수(for 재사용)
+    
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>replit</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    const root = document.getElementById("root");
+
+    // 부모 컴포넌트 : App
+    // 자식 컴포넌트 : Btn
+    // props를 통해 부모 컴포넌트로부터 전달된 데이터에 접근
+
+    function Btn({ buttonName }) {
+        return (
+            <button
+                style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: 0,
+                    borderRadius: "10px",
+                    marginRight: "5px",
+                }}
+            >
+                {buttonName}
+            </button>
+        );
+    }
+
+    const App = () => {
+        return (
+            <div>
+                <Btn buttonName={"Save Changes"} />
+                <Btn buttonName={"Confirm"} />
+            </div>
+        );
+    };
+
+    ReactDOM.render(<App />, root);
+</script>
+
+</html>
