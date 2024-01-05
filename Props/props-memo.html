@@ -1,0 +1,64 @@
+<!--
+    <momo 개념>
+    - 부모 컴포넌트에 상태(state) 변화가 생길 경우, 모든 자식 컴포넌트가 re-render되는데, 이를 막기 위한 것이 memo 이다
+    - 자식 컴포넌트 중 변화가 없는 컴포넌트는 re-render되지 않도록 한다
+
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>React App</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    const root = document.getElementById("root");
+
+    // 부모 컴포넌트 : App
+    // 자식 컴포넌트 : Btn
+    // props를 통해 부모 컴포넌트로부터 전달된 데이터에 접근
+    // props에 function도 보낼 수 있다
+
+    function Btn({ text, onClick }) {
+        console.log(text, "was rendered")
+        return (
+            <button
+                onClick={onClick}
+                style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: 0,
+                    borderRadius: "10px",
+                    marginRight: "5px",
+                }}
+            >
+                {text}
+            </button>
+        );
+    }
+
+    const MemorizedBtn = React.memo(Btn); // 변화가 없는 두 번째 Btn은 리렌더하지 않도록 함
+    const App = () => {
+        const [value, setValue] = React.useState("Save Changes");
+        const changeValue = () => setValue("Revert Changes");
+        return (
+            <div>
+                <MemorizedBtn text={value} onClick={changeValue} />
+                <MemorizedBtn text="Continue" />
+            </div>
+        );
+    };
+
+    ReactDOM.render(<App />, root);
+</script>
+
+</html>
